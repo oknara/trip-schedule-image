@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="x-apple-disable-message-reformatting" />
+<meta http-equlv="X-UA-Compatible" content="IE=edge" />
+<meta http-equlv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<title>세미 유럽여행 일정표</title>
+<link
+    href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap"
+    rel="stylesheet"
+/>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Pretendard", sans-serif;
+    background: #eef2f7;
+}
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 30px 20px 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+h1 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 30px;
+}
+h2 {
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+/* 탭 버튼 */
+.tap-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+.day-link{
+    text-decoration: none;
+    cursor: pointer;
+}
+.tap-button{
+    padding: 8px 12px;
+    font-weight: 400;
+    font-size: 13px;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #052782;
+    transition: all 0.2s ease;
+}
+.tap-button:hover{
+    background-color: #3f72ff;
+    color: #fff;
+}
+.tap-button.active{
+    background-color: #3f72ff;
+    color: #fff;
+}
+
+/*스크롤 영역*/
+.scroll-area{
+    flex: 1;
+    max-height: calc(100vh - 170px);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.scroll-area::-webkit-scrollbar {
+    display: none;
+}
+
+/* 일정 카드 */
+.day-card {
+    position: relative;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #052782;
+    border-radius: 20px;
+    padding: 36px 20px 24px;
+    margin-bottom: 40px;
+}
+
+.count {
+    position: absolute;
+    top: 0;
+    left: 24px;
+    padding: 4px 12px;
+    border-radius: 0 0px 6px 6px;
+    font-weight: 500;
+    font-size: 15px;
+    background: #052782;
+    color: #fff;
+}
+.day-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 28px;
+    padding-left: 4px;
+}
+.info {
+    padding: 4px 8px;
+    font-weight: 400;
+    font-size: 12px;
+    background: #f4f4f4;
+    color: #666;
+    text-align: right;
+}
+
+.timeline {
+    border-left: 2px solid #3f72ff;
+    padding-left: 20px;
+}
+.timeline-item {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 28px;
+    position: relative;
+        &::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: #fff;
+        border: 2px solid #3f72ff;
+        border-radius: 50%;
+        position: absolute;
+        left: -28px;
+        top: 0px;
+    }
+}
+.time {
+    font-weight: 700;
+    color: #3f72ff;
+    font-size: 15px;
+    letter-spacing: -3%;
+}
+.transport {
+    font-size: 13px;
+    color: #888;
+    margin-top: 2px;
+    letter-spacing: -3%;
+}
+.activity {
+    margin-top: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -3%;
+}
+.red {
+    color: rgb(229, 0, 0);
+    font-weight: 600;
+    font-size: 13px;
+}
+.line {
+    margin-top: 12px;
+    padding-top: 4px;
+    font-weight: 400;
+    font-size: 12px;
+    border-top: 1px dashed #ddd;
+    text-align: center;
+    color: #aaa;
+}
+
+/* 식사 카드 3식 */
+.meal-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+.meal-card {
+    background: #f3f6ff;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+}
+.meal-title {
+    font-size: 14px;
+    color: #3f72ff;
+    margin-bottom: 4px;
+}
+.meal-content {
+    font-size: 15px;
+}
+
+/* 숙소 카드 */
+.hotel-box {
+    margin-top: 12px;
+    padding: 20px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+}
+.hotel-box a {
+    color: #1a5cff;
+    text-decoration: underline;
+}
+
+/* 이미지 */
+.image-box{
+    width: 100%;
+    margin-top: 8px;
+    display: flex;
+    gap: 4px;
+    align-items: flex-start;
+}
+.image-box img{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 120px;
+    flex: 0 1 auto;
+    min-width: 0;
+    display: block;
+    border-radius: 4px;
+}
+</style>
+</head>
+
+
+<body>
+    <div class="container">
+        <h1>세미 유럽여행 5박 7일 일정표</h1>
+        <h2>[🇫🇷파리 - 🇨🇭스위스]</h2>
+
+        <div class="tap-wrapper">
+            <a href="#day-1" class="day-link">
+                <span class="tap-button">1일</span>
+            </a>
+            <a href="#day-2" class="day-link">
+                <span class="tap-button">2일</span>
+            </a>
+            <a href="#day-3" class="day-link">
+                <span class="tap-button">3일</span>
+            </a>
+            <a href="#day-4" class="day-link">
+                <span class="tap-button">4일</span>
+            </a>
+            <a href="#day-5" class="day-link">
+                <span class="tap-button">5일</span>
+            </a>
+            <a href="#day-6" class="day-link">
+                <span class="tap-button">6일</span>
+            </a>
+            <a href="#day-7" class="day-link">
+                <span class="tap-button">7일</span>
+            </a>
+        </div>
+
+        <div class="scroll-area">
+            <!-- ================= 제1일 ================= -->
+            <div id="day-1" class="day-card">
+                <div class="count">1일 째</div>
+                <div class="day-title">
+                    <span class="date">5/25 (월)</span>
+                    <span class="info">[프랑스] 파리 도착</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">5:55 - 7:10</div>
+                        <div class="transport">지하철 (1시간 10분 소요)</div>
+                        <div class="activity">서울 ➡️ 인천공항</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">7:10</div>
+                        <div class="activity">공항 체크인</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">10:10 - 18:10</div>
+                        <div class="transport">비행기 (15시간 소요)</div>
+                        <div class="activity">인천공항 ➡️ 파리공항</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">19:00 - 20:30</div>
+                        <div class="transport">한인택시 (1시간 30분 소요)</div>
+                        <div class="activity">
+                            파리공항 ➡️ 숙소<br />
+                            <span class="red">00시 택시 탑승</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">20:30 ~</div>
+                        <div class="activity">저녁식사 / 휴식</div>
+                    </div>
+                </div>
+
+                <div class="meal-row">
+                    <div class="meal-card">
+                        <div class="meal-title">조식</div>
+                        <div class="meal-content">기내식</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">중식</div>
+                        <div class="meal-content">기내식</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">석식</div>
+                        <div class="meal-content">숙소/시내</div>
+                    </div>
+                </div>
+
+                <div class="hotel-box">
+                    한인민박 : 파리우리집 [<a href="https://www.theminda.com/main/view.php?goodsno=17093&v_type=">관련 링크</a>] - 몽마르뜨룸(가족,혼성)
+                </div>
+            </div>
+
+
+            <!-- ================= 제2일 ================= -->
+            <div id="day-2" class="day-card">
+                <div class="count">2일 째</div>
+                <div class="day-title">
+                    <span class="date">5/26 (화)</span>
+                    <span class="info">[프랑스] 베르사유 - 파리시내</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">7:00 - 8:00</div>
+                        <div class="transport">버스 & 광역전철 (1시간 소요)</div>
+                        <div class="activity">숙소 ➡️ 베르사유 궁전 / 쿱마트 점심 구매</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">9:00 - 14:30</div>
+                        <div class="transport">도보, 쁘티트레인 (현장예매)</div>
+                        <div class="activity">베르사유 궁전 내부 / 정원 / 점심 피크닉</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/1-1.%20%E1%84%87%E1%85%A6%E1%84%85%E1%85%B3%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B2.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/1-2.%20%E1%84%87%E1%85%A6%E1%84%85%E1%85%B3%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B2%E1%84%80%E1%85%AE%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/1-3.%20%E1%84%87%E1%85%A6%E1%84%85%E1%85%B3%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B2%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%AF%E1%86%AB.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">14:30 - 15:30</div>
+                        <div class="transport">광역전철 (40분 소요)</div>
+                        <div class="activity">베르사유 궁전 ➡️ 파리 시내</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">15:30 ~</div>
+                        <div class="transport">도보</div>
+                        <div class="activity">비르하켐 다리 / 트로카데로 광장 / 에펠탑</div>
+                        <div class="activity">에투알 개선문 / 샹젤리제 거리 / 프리팔레 / 알렉상드르 3세 다리 / 띌르히 가든</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/2-1.%20%E1%84%90%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8F%E1%85%A1%E1%84%83%E1%85%A6%E1%84%85%E1%85%A9%E1%84%80%E1%85%AA%E1%86%BC%E1%84%8C%E1%85%A1%E1%86%BC.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/2-2.%20%E1%84%8B%E1%85%A6%E1%84%90%E1%85%AE%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%80%E1%85%A2%E1%84%89%E1%85%A5%E1%86%AB%E1%84%86%E1%85%AE%E1%86%AB.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/2-3.%20%E1%84%84%E1%85%B4%E1%86%AF%E1%84%85%E1%85%B3%E1%84%92%E1%85%B5%E1%84%80%E1%85%A1%E1%84%83%E1%85%B3%E1%86%AB.png?raw=true">
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="transport">지하철 & 도보</div>
+                        <div class="activity">저녁식사 / 휴식</div>
+                    </div>
+                </div>
+
+                <div class="meal-row">
+                    <div class="meal-card">
+                        <div class="meal-title">조식</div>
+                        <div class="meal-content">숙소</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">중식</div>
+                        <div class="meal-content">궁전 피크닉</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">석식</div>
+                        <div class="meal-content">숙소/시내</div>
+                    </div>
+                </div>
+
+                <div class="hotel-box">
+                    한인민박 : 파리우리집 [<a href="https://www.theminda.com/main/view.php?goodsno=17093&v_type=">관련 링크</a>] - 몽마르뜨룸(가족,혼성)
+                </div>
+            </div>
+
+
+            <!-- ================= 제3일 ================= -->
+            <div id="day-3" class="day-card">
+                <div class="count">3일 째</div>
+                <div class="day-title">
+                    <span class="date">5/27 (수)</span>
+                    <span class="info">[프랑스] 파리 시내 - [스위스] 루체른 시내</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">8:00 - 10:30</div>
+                        <div class="transport">버스 & 퓨니쿨라</div>
+                        <div class="activity">숙소 ➡️ 몽마르뜨 언덕 / 성당 ➡️ 숙소</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/3-1.%20%E1%84%86%E1%85%A9%E1%86%BC%E1%84%86%E1%85%A1%E1%84%85%E1%85%B3%E1%84%84%E1%85%B3%E1%84%89%E1%85%A5%E1%86%BC%E1%84%83%E1%85%A1%E1%86%BC.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/3-2.%20%E1%84%86%E1%85%A9%E1%86%BC%E1%84%86%E1%85%A1%E1%84%85%E1%85%B3%E1%84%84%E1%85%B3%E1%84%8B%E1%85%A5%E1%86%AB%E1%84%83%E1%85%A5%E1%86%A8.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">10:30 - 12:00</div>
+                        <div class="transport">한인택시 (1시간 30분 소요)</div>
+                        <div class="activity">
+                            숙소 ➡️ 파리공항<br />
+                            <span class="red">00시 택시 탑승</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">12:00 - 15:00</div>
+                        <div class="activity">공항 체크인 / 점심식사</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">15:00 - 16:20</div>
+                        <div class="transport">비행기 (1시간 20분 소요)</div>
+                        <div class="activity">파리공항 ➡️ 스위스공항</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">17:00</div>
+                        <div class="transport">Airport Center 2층 (알라모)</div>
+                        <div class="activity">렌트카 픽업</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">17:20 - 19:00</div>
+                        <div class="transport">렌트카 (1시간 20분 소요)</div>
+                        <div class="activity">스위스공항 ➡️ 빈사의 사자장
+                            <br />
+                            <span class="red">쿱마트 주차</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">19:00 - 20:00</div>
+                        <div class="transport">도보, 렌트카 (근처임)</div>
+                        <div class="activity">빈사의 사자장 / 숙소 체크인</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/4-1.%20%E1%84%87%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B4%E1%84%89%E1%85%A1%E1%84%8C%E1%85%A1%E1%84%89%E1%85%A1%E1%86%BC.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/4-2.%20%E1%84%87%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B4%E1%84%89%E1%85%A1%E1%84%8C%E1%85%A1%E1%84%89%E1%85%A1%E1%86%BC.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time"> 20:30 ~</div>
+                        <div class="transport">도보</div>
+                        <div class="activity">카펠교 / 저녁식사 / 휴식</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/5-1.%20%E1%84%8F%E1%85%A1%E1%84%91%E1%85%A6%E1%86%AF%E1%84%80%E1%85%AD.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/5-2.%20%E1%84%8F%E1%85%A1%E1%84%91%E1%85%A6%E1%86%AF%E1%84%80%E1%85%AD.png?raw=true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="meal-row">
+                    <div class="meal-card">
+                        <div class="meal-title">조식</div>
+                        <div class="meal-content">숙소</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">중식</div>
+                        <div class="meal-content">공항</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">석식</div>
+                        <div class="meal-content">시내</div>
+                    </div>
+                </div>
+
+                <div class="hotel-box">
+                    호스텔 : 바라바스 호스텔 [<a href="https://www.agoda.com/ko-kr/barabas-luzern/hotel/luzern-ch.html?cid=1844104">관련 링크</a>] - 쿼드러플룸
+                </div>
+            </div>
+
+
+            <!-- ================= 제4일 ================= -->
+            <div id="day-4" class="day-card">
+                <div class="count">4일 째</div>
+                <div class="day-title">
+                    <span class="date">5/28 (목)</span>
+                    <span class="info">[스위스] 융프라우산 일대</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">6:30 ~ 8:30</div>
+                        <div class="transport">렌트카 (1시간 40분 소요)</div>
+                        <div class="activity">숙소 체크아웃 ➡️ 그린델발트(숙소) / 쿱마트 먹거리 구매
+                            <br />
+                            <span class="red">숙소 주차</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">9:00 - 10:00</div>
+                        <div class="transport">곤돌라 (55분 소요, 아이거글레처 경유)</div>
+                        <div class="activity">
+                            그린델발트 ➡️ 융프라우요흐 / vip패스 현장발권<br />
+                            <span class="red">★ 8:46 / 9:16</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">10:00 - 12:00</div>
+                        <div class="activity">융프라우요흐 전망대 / 빙하 동굴 / 점심식사(신라면) or 눈썰매</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/6-1.%20%E1%84%8B%E1%85%B2%E1%86%BC%E1%84%91%E1%85%B3%E1%84%85%E1%85%A1%E1%84%8B%E1%85%AE%E1%84%8B%E1%85%AD%E1%84%92%E1%85%B3%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%86%E1%85%A1%E1%86%BC%E1%84%83%E1%85%A2.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/6-2.%20%E1%84%8B%E1%85%B2%E1%86%BC%E1%84%91%E1%85%B3%E1%84%85%E1%85%A1%E1%84%8B%E1%85%AE%E1%84%87%E1%85%B5%E1%86%BC%E1%84%92%E1%85%A1%E1%84%83%E1%85%A9%E1%86%BC%E1%84%80%E1%85%AE%E1%86%AF.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">12:00 - 14:00</div>
+                        <div class="transport">트레킹 (2시간 소요)</div>
+                        <div class="activity">37번 트레킹 - 아이거글레처 / 폴보덴 호수 / 클라이네샤이덱</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/7-1.%2037%E1%84%87%E1%85%A5%E1%86%AB%E1%84%90%E1%85%B3%E1%84%85%E1%85%A6%E1%84%8F%E1%85%B5%E1%86%BC.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/7-2.%20%E1%84%91%E1%85%A9%E1%86%AF%E1%84%87%E1%85%A9%E1%84%83%E1%85%A6%E1%86%AB%E1%84%92%E1%85%A9%E1%84%89%E1%85%AE.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">14:00 - 15:00</div>
+                        <div class="transport">산악열차 (40분 소요)</div>
+                        <div class="activity">클라이네샤이덱 ➡️ 라우터브루넨<br />
+                            <span class="red">★ 13:44 / 14:14</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">14:30 - 15:30</div>
+                        <div class="transport">도보, 트레킹 (1시간 소요)</div>
+                        <div class="activity">슈타우바흐 폭포 / 전망대</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/8-1.%20%E1%84%89%E1%85%B2%E1%84%90%E1%85%A1%E1%84%8B%E1%85%AE%E1%84%87%E1%85%A1%E1%84%92%E1%85%B3%E1%84%91%E1%85%A9%E1%86%A8%E1%84%91%E1%85%A9.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/8-2.%20%E1%84%89%E1%85%B2%E1%84%90%E1%85%A1%E1%84%8B%E1%85%AE%E1%84%87%E1%85%A1%E1%84%92%E1%85%B3%E1%84%91%E1%85%A9%E1%86%A8%E1%84%91%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%86%E1%85%A1%E1%86%BC%E1%84%83%E1%85%A2.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/8-3.%20%E1%84%89%E1%85%B2%E1%84%90%E1%85%A1%E1%84%8B%E1%85%AE%E1%84%87%E1%85%A1%E1%84%92%E1%85%B3%E1%84%91%E1%85%A9%E1%86%A8%E1%84%91%E1%85%A9.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">15:30 - 16:00</div>
+                        <div class="transport">산악열차 & 곤돌라 (26분 소요, 뱅겐 경유)</div>
+                        <div class="activity">라우터브루넨 ➡️ 멘리헨<br />
+                            <span class="red">★ 15:30</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">16:00 - 17:00</div>
+                        <div class="transport">트레킹 (50분 소요)</div>
+                        <div class="activity">멘리헨 전망대</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/9-1.%20%E1%84%86%E1%85%A6%E1%86%AB%E1%84%85%E1%85%B5%E1%84%92%E1%85%A6%E1%86%AB.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/9-2.%20%E1%84%86%E1%85%A6%E1%86%AB%E1%84%85%E1%85%B5%E1%84%92%E1%85%A6%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%86%E1%85%A1%E1%86%BC%E1%84%83%E1%85%A2.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">17:00 - 17:30</div>
+                        <div class="transport">곤돌라 (20분 소요)</div>
+                        <div class="activity">멘리헨 ➡️ 그린델발트(숙소)<br />
+                            <span class="red">★ (막)17:00</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">19:30 ~</div>
+                        <div class="activity">저녁식사 / 휴식</div>
+                    </div>
+                </div>
+
+                <div class="meal-row">
+                    <div class="meal-card">
+                        <div class="meal-title">조식</div>
+                        <div class="meal-content">숙소</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">중식</div>
+                        <div class="meal-content">공항</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">석식</div>
+                        <div class="meal-content">시내</div>
+                    </div>
+                </div>
+
+                <div class="hotel-box">
+                    호텔 : 아이거로지 시크 
+                    [<a href="https://www.agoda.com/ko-kr/mountain-apartment_2/hotel/grindelwald-ch.html?cid=1807734&currency=KRW&checkin=2026-05-28&checkout=2026-05-30&numberofchildren=0&mcid=28152&masterroomid=821024634&hid=52499270&adults=4&rooms=1&los=2&pslc=1&ds=ovVFmVTZKKlzMxGQ">관련 링크</a>]
+                    - 패밀리룸 (발코니)
+                </div>
+            </div>
+
+
+            <!-- ================= 제5일 ================= -->
+            <div id="day-5" class="day-card">
+                <div class="count">5일 째</div>
+                <div class="day-title">
+                    <span class="date">5/29 (금)</span>
+                    <span class="info">[스위스] 융프라우산 일대 - 브리엔츠호수 일대</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">07:20 - 07:50</div>
+                        <div class="transport">버스 (18분 소요)</div>
+                        <div class="activity">숙소 ➡️ 그린델발트 / 점심 도시락 미리 챙기기<br />
+                            <span class="red">121/122/123버스, 07:34</span><br />
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">8:00 - 8:30</div>
+                        <div class="transport">곤돌라 (30분 소요)</div>
+                        <div class="activity">그린델발트 ➡️ 피르스트<br />
+                            <span class="red">★ (첫)8:00</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">8:30 - 9:20</div>
+                        <div class="transport">도보</div>
+                        <div class="activity">피르트스 절벽 산책로(클리프 워크)</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/10-1.%20%E1%84%8F%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%84%91%E1%85%B3%E1%84%8B%E1%85%AF%E1%84%8F%E1%85%B3.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/10-2.%20%E1%84%8F%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%84%91%E1%85%B3%E1%84%8B%E1%85%AF%E1%84%8F%E1%85%B3.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/10-3.%20%E1%84%8F%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%84%91%E1%85%B3%E1%84%8B%E1%85%AF%E1%84%8F%E1%85%B3.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">9:20 - 11:00</div>
+                        <div class="transport">액티비티로 이동</div>
+                        <div class="activity">플라이어 (피르스트 ➡️ 슈렉펠트)</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/11-1.%20%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%8B%E1%85%A5.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/11-2.%20%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%8B%E1%85%A5.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">11:00 - 11:40</div>
+                        <div class="transport">액티비티로 이동</div>
+                        <div class="activity">마운틴 카트 (슈렉펠트 ➡️ 보어트)</div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/12-1.%20%E1%84%86%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%90%E1%85%B5%E1%86%AB%E1%84%8F%E1%85%A1%E1%84%90%E1%85%B3.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/12-2.%20%E1%84%86%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%90%E1%85%B5%E1%86%AB%E1%84%8F%E1%85%A1%E1%84%90%E1%85%B3.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">11:45 - 12:00</div>
+                        <div class="transport">곤돌라 (16분 소요)</div>
+                        <div class="activity">보어트 ➡️ 그린델발트 </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">12:00 - 12:50</div>
+                        <div class="transport">버스 (18분 소요)</div>
+                        <div class="activity">그린델발트 ➡️ 그린델발트 / 점심</div>
+                        <div class="line">밑에 일정 '유람선 - 증기기관' 순서 바뀔 수 있음</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">12:40 - 13:30</div>
+                        <div class="transport">기차 (33분 소요)</div>
+                        <div class="activity">그린델발트 ➡️ 인터라켄 동역<br />
+                            <span class="red">★ 12:51 - 13:24</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">14:00 - 15:30</div>
+                        <div class="transport">유람선 (이젤발트, 기스바흐 경유 관광X)</div>
+                        <div class="activity">인터라켄 선착장 ➡️ 브리엔츠<br />
+                            <span class="red">★ 14:07 - 15:20</span>
+                        </div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/13-1.%20%E1%84%87%E1%85%B3%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A6%E1%86%AB%E1%84%8E%E1%85%B3%E1%84%92%E1%85%A9%E1%84%89%E1%85%AE%E1%84%8B%E1%85%B2%E1%84%85%E1%85%A1%E1%86%B7%E1%84%89%E1%85%A5%E1%86%AB.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/13-2.%20%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%A6%E1%86%AF%E1%84%87%E1%85%A1%E1%86%AF%E1%84%90%E1%85%B3.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/13-3.%20%E1%84%80%E1%85%B5%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%84%92%E1%85%B3%E1%84%91%E1%85%A9%E1%86%A8%E1%84%91%E1%85%A9.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">15:45 - 17:30</div>
+                        <div class="transport">증기기관차 (1시간 30분 소요)</div>
+                        <div class="activity">로트호른 열차 왕복 (프라날프 중간역행)<br />
+                            <span class="red">★ 상행(막)15:45-16:15 (왼), 하행(막)16:45-17:15 (오)</span>
+                        </div>
+                        <div class="image-box">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/14-1.%20%E1%84%85%E1%85%A9%E1%84%90%E1%85%B3%E1%84%92%E1%85%A9%E1%84%85%E1%85%B3%E1%86%AB.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/14-2.%20%E1%84%85%E1%85%A9%E1%84%90%E1%85%B3%E1%84%92%E1%85%A9%E1%84%85%E1%85%B3%E1%86%AB.png?raw=true">
+                            <img src="https://github.com/oknara/trip-schedule-image/blob/main/%EC%8A%A4%EC%9C%84%EC%8A%A4/14-3.%20%E1%84%85%E1%85%A9%E1%84%90%E1%85%B3%E1%84%92%E1%85%A9%E1%84%85%E1%85%B3%E1%86%AB.png?raw=true">
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">17:30 - 18:30</div>
+                        <div class="transport">기차 (56분 소요, 인터라켄 경유)</div>
+                        <div class="activity">브리엔츠 ➡️ 그린델발트<br />
+                            <span class="red">17:37</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">18:40 ~</div>
+                        <div class="activity">저녁식사 / 휴식</div>
+                    </div>
+                </div>
+
+                <div class="meal-row">
+                    <div class="meal-card">
+                        <div class="meal-title">조식</div>
+                        <div class="meal-content">숙소</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">중식</div>
+                        <div class="meal-content">그린델발트 마을</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">석식</div>
+                        <div class="meal-content">그린델발트 마을</div>
+                    </div>
+                </div>
+
+                <div class="hotel-box">
+                    호텔 : 아이거로지 시크 
+                    [<a href="https://www.agoda.com/ko-kr/mountain-apartment_2/hotel/grindelwald-ch.html?cid=1807734&currency=KRW&checkin=2026-05-28&checkout=2026-05-30&numberofchildren=0&mcid=28152&masterroomid=821024634&hid=52499270&adults=4&rooms=1&los=2&pslc=1&ds=ovVFmVTZKKlzMxGQ">관련 링크</a>]
+                    - 패밀리룸 (발코니)
+                </div>
+            </div>
+
+
+            <!-- ================= 제6일 ================= -->
+            <div id="day-6" class="day-card">
+                <div class="count">6일 째</div>
+                <div class="day-title">
+                    <span class="date">5/30 (토)</span>
+                    <span class="info">스위스공항 - 인천공항</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">7:00 - 10:30</div>
+                        <div class="transport">렌트카 (2시간 30분 소요)</div>
+                        <div class="activity">숙소 체크아웃 / 숙소 ➡️ 스위스공항</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">10:30</div>
+                        <div class="activity">렌트카 반납 / 공항 체크인 / 점심</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">13:30 - 14:05</div>
+                        <div class="transport">비행기 (15시간 소요, 홍콩 경유)</div>
+                        <div class="activity">스위스공항 ➡️ 인천공항</div>
+                    </div>
+                </div>
+
+                <div class="meal-row">
+                    <div class="meal-card">
+                        <div class="meal-title">조식</div>
+                        <div class="meal-content">숙소</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">중식</div>
+                        <div class="meal-content">기내식</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">석식</div>
+                        <div class="meal-content">기내식</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ================= 제7일 ================= -->
+            <div id="day-7" class="day-card">
+                <div class="count">7일 째</div>
+                <div class="day-title">
+                    <span class="date">5/31 (일)</span>
+                    <span class="info">인천공항, 부산도착</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">14:30</div>
+                        <div class="activity">인천공항 도착</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">16:00 - 17:00</div>
+                        <div class="transport">지하철 (40분 소요)</div>
+                        <div class="activity">인천공항 ➡️ 김포공항</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">17:10</div>
+                        <div class="activity">공항 체크인</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time">18:50 - 19:50</div>
+                        <div class="transport">비행기 (1시간 소요)</div>
+                        <div class="activity">김포공항 ➡️ 김해공항</div>
+                    </div>
+                </div>
+
+                <div class="meal-row">
+                    <div class="meal-card">
+                        <div class="meal-title">조식</div>
+                        <div class="meal-content">-</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">중식</div>
+                        <div class="meal-content">-</div>
+                    </div>
+
+                    <div class="meal-card">
+                        <div class="meal-title">석식</div>
+                        <div class="meal-content">공항</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const sections = document.querySelectorAll(".day-card");
+    const buttons = document.querySelectorAll(".tap-button");
+
+    function activateTab() {
+        let current = "";
+
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+
+            if (rect.top <= 150) {
+                current = section.id;
+            }
+        });
+
+        buttons.forEach(btn => btn.classList.remove("active"));
+
+        if (current) {
+            const activeBtn = document.querySelector(`a[href="#${current}"] .tap-button`);
+            if (activeBtn) activeBtn.classList.add("active");
+        }
+    }
+
+    document.querySelector(".scroll-area").addEventListener("scroll", activateTab);
+
+});
+</script>
+</script>
+</html>

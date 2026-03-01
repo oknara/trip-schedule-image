@@ -79,7 +79,7 @@ h2 {
 /*스크롤 영역*/
 .scroll-area{
     flex: 1;
-    max-height: calc(100vh - 158px);
+    max-height: calc(100vh - 157.5px);
     overflow-y: auto;
     scrollbar-width: none;
 }
@@ -874,7 +874,7 @@ document.addEventListener("DOMContentLoaded", function () {
         sections.forEach(section => {
             const rect = section.getBoundingClientRect();
 
-            if (rect.top <= 158) {
+            if (rect.top <= 157.5) {
                 current = section.id;
             }
         });
